@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h2>Add Item to Cart</h2>
+    <form method="post" action="{% url 'add_to_cart' %}">
+        {% csrf_token %}
+        <label for="item_name">Item Name:</label>
+        <input type="text" id="item_name" name="item_name" required>
+        <label for="item_cost">Item Cost:</label>
+        <input type="number" id="item_cost" name="item_cost" step="0.01" required>
+        <button type="submit">Add to Cart</button>
+    </form>
+    <h2>Shopping Cart</h2>
+    {% if cart %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total Amount: {{ total_cost }}</h3>
+    <a href="{% url 'clear_cart' %}"><button>Clear Cart</button></a> {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</body>
+</html>
